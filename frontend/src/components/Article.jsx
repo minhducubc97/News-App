@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare, faSave } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import MyToast from "./MyToast";
 
 class Article extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: "",
-      author: "",
-      coverPhotoURL: "",
-      content: "",
-    };
+    this.state = this.initialState;
+    this.state.showSuccess = false;
     this.submitArticle = this.submitArticle.bind(this);
     this.changeTitle = this.changeTitle.bind(this);
     this.changeAuthor = this.changeAuthor.bind(this);
@@ -18,14 +16,32 @@ class Article extends Component {
     this.changecoverPhotoURL = this.changecoverPhotoURL.bind(this);
   }
 
+  initialState = {
+    title: "",
+    author: "",
+    coverPhotoURL: "",
+    content: "",
+  };
+
   submitArticle = (event) => {
-    alert(
-      this.state.title +
-        this.state.author +
-        this.state.coverPhotoURL +
-        this.state.content
-    );
     event.preventDefault(); // refresh the state
+    const article = {
+      title: this.state.title,
+      author: this.state.author,
+      coverPhotoURL: this.state.coverPhotoURL,
+      content: this.state.content,
+    };
+    axios
+      .post("http://localhost:8080/api/v1/articles", article)
+      .then((response) => {
+        if (response.data != null) {
+          this.setState({ showSuccess: true });
+          setTimeout(() => this.setState({ showSuccess: false }), 5000);
+        } else {
+          this.setState({ showSuccess: false });
+        }
+      });
+    this.setState(this.initialState);
   };
 
   changeTitle = (event) => {
@@ -46,72 +62,81 @@ class Article extends Component {
 
   render() {
     return (
-      <div className="card border border-dark bg-dark text-white">
-        <div className="card-header">
-          <FontAwesomeIcon icon={faPlusSquare} />
-          &nbsp;Add a new article
+      <div>
+        <div style={{ display: this.state.showSuccess ? "block" : "none" }}>
+          <MyToast children={{ show: this.state.showSuccess }} />
         </div>
-        <form id="articleForm" onSubmit={this.submitArticle}>
-          <div className="card-body">
-            <div className="form-row">
+        <div className="card border border-dark bg-dark text-white">
+          <div className="card-header">
+            <FontAwesomeIcon icon={faPlusSquare} />
+            &nbsp;Add a new article
+          </div>
+          <form id="articleForm" onSubmit={this.submitArticle}>
+            <div className="card-body">
+              <div className="form-row">
+                <div className="form-group mb-3 col-md-5">
+                  <label className="form-label">Title</label>
+                  <input
+                    type="text"
+                    className="form-control bg-dark text-white"
+                    id="formTitle"
+                    aria-describedby="title"
+                    placeholder="Enter article title"
+                    value={this.state.title}
+                    onChange={this.changeTitle}
+                    required={true}
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="form-group mb-3 col-md-5">
+                  <label className="form-label">Author</label>
+                  <input
+                    type="text"
+                    className="form-control bg-dark text-white"
+                    id="formAuthor"
+                    placeholder="Enter author's name"
+                    value={this.state.author}
+                    onChange={this.changeAuthor}
+                    required={true}
+                    autoComplete="off"
+                  />
+                </div>
+              </div>
               <div className="form-group mb-3 col-md-5">
-                <label className="form-label">Title</label>
+                <label className="form-label">Cover Photo URL</label>
                 <input
                   type="text"
                   className="form-control bg-dark text-white"
-                  id="formTitle"
-                  aria-describedby="title"
-                  placeholder="Enter article title"
-                  value={this.state.title}
-                  onChange={this.changeTitle}
-                  required="true"
+                  id="formCoverPhotoURL"
+                  placeholder="Enter article cover photo URL"
+                  value={this.state.coverPhotoURL}
+                  onChange={this.changecoverPhotoURL}
+                  required={true}
+                  autoComplete="off"
                 />
               </div>
-              <div className="form-group mb-3 col-md-5">
-                <label className="form-label">Author</label>
-                <input
-                  type="text"
+              <div className="form-group mb-3">
+                <label className="form-label">Content</label>
+                <textarea
                   className="form-control bg-dark text-white"
-                  id="formAuthor"
-                  placeholder="Enter author's name"
-                  value={this.state.author}
-                  onChange={this.changeAuthor}
-                  required="true"
-                />
+                  id="formContent"
+                  rows="3"
+                  placeholder="Enter article content"
+                  value={this.state.content}
+                  onChange={this.changeContent}
+                  required={true}
+                  autoComplete="off"
+                ></textarea>
               </div>
             </div>
-            <div className="form-group mb-3 col-md-5">
-              <label className="form-label">Cover Photo URL</label>
-              <input
-                type="text"
-                className="form-control bg-dark text-white"
-                id="formCoverPhotoURL"
-                placeholder="Enter article cover photo URL"
-                value={this.state.coverPhotoURL}
-                onChange={this.changecoverPhotoURL}
-                required="true"
-              />
+            <div className="card-footer mb-1 d-flex flex-row-reverse">
+              <button type="submit" className="btn btn-primary">
+                <FontAwesomeIcon icon={faSave} />
+                &nbsp; Submit
+              </button>
             </div>
-            <div className="form-group mb-3">
-              <label className="form-label">Content</label>
-              <textarea
-                className="form-control bg-dark text-white"
-                id="formContent"
-                rows="3"
-                placeholder="Enter article content"
-                value={this.state.content}
-                onChange={this.changeContent}
-                required="true"
-              ></textarea>
-            </div>
-          </div>
-          <div className="card-footer mb-1 d-flex flex-row-reverse">
-            <button type="submit" className="btn btn-primary">
-              <FontAwesomeIcon icon={faSave} />
-              &nbsp; Submit
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     );
   }
