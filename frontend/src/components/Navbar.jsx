@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 
 class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
         <a className="navbar-brand nav-link" href="/">
-          <i className="fas fa-newspaper"></i>
+          <FontAwesomeIcon icon={faNewspaper} />
           &nbsp;&nbsp;
           <span>News</span>
         </a>
