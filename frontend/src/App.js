@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import UserList from "./components/UserList";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="/add-article" exact component={Article} />
               <Route path="/edit/:id" exact component={Article} />
               <Route path="/articles" exact component={ArticleList} />
+              <Route path="/users" exact component={UserList} />
             </Switch>
           </div>
         </div>

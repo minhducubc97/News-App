@@ -22,6 +22,11 @@ class Navbar extends Component {
               Article List
             </a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/users">
+              User List
+            </a>
+          </li>
         </ul>
       </nav>
     );
