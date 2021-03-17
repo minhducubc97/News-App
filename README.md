@@ -4,6 +4,12 @@
 
 A News web app that allows creating/editing/deleting/viewing articles, while maintaining a list of users.
 
+<img src="https://github.com/minhducubc97/Chess-AI/blob/master/img/Home.PNG" height="250">
+<img src="https://github.com/minhducubc97/Chess-AI/blob/master/img/Articles.PNG" height="250">
+<img src="https://github.com/minhducubc97/Chess-AI/blob/master/img/AddArticles.PNG" height="250">
+<img src="https://github.com/minhducubc97/Chess-AI/blob/master/img/EditArticles.PNG" height="250">
+<img src="https://github.com/minhducubc97/Chess-AI/blob/master/img/Users.PNG" height="250">
+
 ## Current functionalities (ongoing):
 
 - View the list of articles
