@@ -32,12 +32,12 @@ class ArticleList extends Component {
       .delete("http://localhost:8080/api/v1/articles/" + articleId)
       .then((response) => response.data)
       .then((data) => {
-        if (data != null) {
+        if (data !== null) {
           this.setState({ showSuccess: true });
           setTimeout(() => this.setState({ showSuccess: false }), 5000);
           this.setState({
             articles: this.state.articles.filter(
-              (article) => article.id != articleId
+              (article) => article.id !== articleId
             ),
           });
         } else {
@@ -82,6 +82,7 @@ class ArticleList extends Component {
                       <td>
                         <img
                           src={article.coverPhotoURL}
+                          alt="coverPhoto"
                           width="25"
                           height="25"
                         />
@@ -91,9 +92,12 @@ class ArticleList extends Component {
                       <td>{article.author}</td>
                       <td>
                         <div className="btn-group" role="group">
-                          <button className="btn btn-outline-primary btn-sm">
+                          <a
+                            className="btn btn-outline-primary btn-sm"
+                            href={"edit/" + article.id}
+                          >
                             <FontAwesomeIcon icon={faEdit} />
-                          </button>
+                          </a>
                           <button
                             className="btn btn-outline-danger btn-sm"
                             onClick={() => this.deleteArticle(article.id)}
