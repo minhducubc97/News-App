@@ -64,7 +64,12 @@ class Article extends Component {
     return (
       <div>
         <div style={{ display: this.state.showSuccess ? "block" : "none" }}>
-          <MyToast children={{ show: this.state.showSuccess }} />
+          <MyToast
+            children={{
+              show: this.state.showSuccess,
+              message: "Article added successfully!",
+            }}
+          />
         </div>
         <div className="card border border-dark bg-dark text-white">
           <div className="card-header">

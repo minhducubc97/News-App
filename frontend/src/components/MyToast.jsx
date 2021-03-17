@@ -20,7 +20,7 @@ class MyToast extends Component {
             <div className="toast-header bg-success text-white">
               <h5 className="mr-auto">Success</h5>
             </div>
-            <div className="toast-body">Article added successfully!</div>
+            <div className="toast-body">{this.props.children.message}</div>
           </div>
         ) : null}
       </div>
