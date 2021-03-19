@@ -1,10 +1,24 @@
-package com.ducnguyen.news.domain;
+package com.ducnguyen.news.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "article")
 public class Article {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "author")
     private String author;
+
+    @Column(name = "cover_photo_url")
     private String coverPhotoURL;
+
+    @Column(name = "content")
     private String content;
 
     public Long getId() {
