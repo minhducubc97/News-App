@@ -20,6 +20,8 @@ class ArticleList extends Component {
       showSuccess: false,
       curPage: 1,
       articlesPerPage: 10,
+      totalPages: 0,
+      totalElements: 0,
     };
     this.changePage = this.changePage.bind(this);
     this.deleteArticle = this.deleteArticle.bind(this);
@@ -30,15 +32,25 @@ class ArticleList extends Component {
   }
 
   componentDidMount() {
-    this.getArticles();
+    this.getArticles(this.state.curPage);
   }
 
-  getArticles = () => {
+  getArticles = (curPage) => {
     axios
-      .get("http://localhost:8080/api/v1/articles")
+      .get(
+        "http://localhost:8080/api/v1/articles?page=" +
+          (curPage - 1) +
+          "&size=" +
+          this.state.articlesPerPage
+      )
       .then((response) => response.data)
       .then((data) => {
-        this.setState({ articles: data });
+        this.setState({
+          articles: data.content,
+          totalPages: data.totalPages,
+          totalElements: data.totalElements,
+          curPage: data.number + 1,
+        });
       });
   };
 
@@ -63,52 +75,43 @@ class ArticleList extends Component {
 
   firstPage = () => {
     if (this.state.curPage > 1) {
-      this.setState({
-        curPage: 1,
-      });
+      this.getArticles(1);
     }
   };
 
   previousPage = () => {
     if (this.state.curPage > 1) {
-      this.setState({
-        curPage: this.state.curPage - 1,
-      });
+      this.getArticles(this.state.curPage - 1);
     }
   };
 
   nextPage = () => {
-    if (
-      this.state.curPage <
-      Math.ceil(this.state.articles.length / this.state.articlesPerPage)
-    ) {
-      this.setState({
-        curPage: this.state.curPage + 1,
-      });
+    if (this.state.curPage < this.state.totalPages) {
+      this.getArticles(this.state.curPage + 1);
     }
   };
 
   lastPage = () => {
-    var totalPages = Math.ceil(
-      this.state.articles.length / this.state.articlesPerPage
-    );
-    if (this.state.curPage < totalPages) {
-      this.setState({
-        curPage: totalPages,
-      });
+    if (this.state.curPage < this.state.totalPages) {
+      this.getArticles(this.state.totalPages);
     }
   };
 
   changePage = (event) => {
-    this.setState({ [event.target.name]: parseInt(event.target.value) });
+    let targetPage = parseInt(event.target.value);
+    this.getArticles(targetPage);
+    this.setState({ [event.target.name]: targetPage });
   };
 
   render() {
-    const { articles, showSuccess, curPage, articlesPerPage } = this.state;
-    const lastIdx = curPage * articlesPerPage;
-    const firstIdx = lastIdx - articlesPerPage;
-    const curArticleList = articles.slice(firstIdx, lastIdx);
-    const totalPages = Math.ceil(articles.length / articlesPerPage);
+    const {
+      articles,
+      showSuccess,
+      curPage,
+      articlesPerPage,
+      totalPages,
+      totalElements,
+    } = this.state;
     const pageNumCss = {
       width: "50px",
       border: "1px solid #17A2B8",
@@ -147,7 +150,7 @@ class ArticleList extends Component {
                     <td colSpan="6">No articles found!</td>
                   </tr>
                 ) : (
-                  curArticleList.map((article) => (
+                  articles.map((article) => (
                     <tr key={article.id}>
                       <td>
                         <img
