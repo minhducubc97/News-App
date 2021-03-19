@@ -21,6 +21,9 @@ public class Article {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "category")
+    private String category;
+
     public Long getId() {
         return id;
     }
@@ -59,5 +62,13 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

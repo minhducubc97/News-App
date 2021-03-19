@@ -163,6 +163,7 @@ class ArticleList extends Component {
                       }
                     ></div>
                   </th>
+                  <th scope="col">Category</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
@@ -185,6 +186,7 @@ class ArticleList extends Component {
                         {article.title}
                       </td>
                       <td>{article.author}</td>
+                      <td>{article.category}</td>
                       <td>
                         <div className="btn-group" role="group">
                           <a

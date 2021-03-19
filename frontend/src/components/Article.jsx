@@ -12,7 +12,10 @@ class Article extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;
-    this.state.showSuccess = false;
+    this.state = {
+      categories: [],
+      showSuccess: false,
+    };
     this.state.method = "post";
     this.submitArticle = this.submitArticle.bind(this);
     this.editArticle = this.editArticle.bind(this);
@@ -20,6 +23,7 @@ class Article extends Component {
     this.changeAuthor = this.changeAuthor.bind(this);
     this.changeContent = this.changeContent.bind(this);
     this.changecoverPhotoURL = this.changecoverPhotoURL.bind(this);
+    this.changeCategory = this.changeCategory.bind(this);
     this.navigateToArticleList = this.navigateToArticleList.bind(this);
   }
 
@@ -29,6 +33,7 @@ class Article extends Component {
     author: "",
     coverPhotoURL: "",
     content: "",
+    category: "NA",
   };
 
   componentDidMount = () => {
@@ -37,6 +42,7 @@ class Article extends Component {
       this.state.method = "put";
       this.getArticleById(articleId);
     }
+    this.getAllCategories();
   };
 
   getArticleById = (articleId) => {
@@ -50,6 +56,7 @@ class Article extends Component {
             author: response.data.author,
             coverPhotoURL: response.data.coverPhotoURL,
             content: response.data.content,
+            category: response.data.category,
           });
         }
       })
@@ -65,6 +72,7 @@ class Article extends Component {
       author: this.state.author,
       coverPhotoURL: this.state.coverPhotoURL,
       content: this.state.content,
+      category: this.state.category,
     };
     axios
       .post("http://localhost:8080/api/v1/articles", article)
@@ -81,7 +89,7 @@ class Article extends Component {
   };
 
   editArticle = (event) => {
-    console.log("FUCKING HERE!");
+    console.log(this.state.category);
     event.preventDefault(); // refresh the state
     const article = {
       id: this.state.id,
@@ -89,6 +97,7 @@ class Article extends Component {
       author: this.state.author,
       coverPhotoURL: this.state.coverPhotoURL,
       content: this.state.content,
+      category: this.state.category,
     };
     axios
       .put("http://localhost:8080/api/v1/articles/" + this.state.id, article)
@@ -102,6 +111,21 @@ class Article extends Component {
         }
       });
     this.setState(this.initialState);
+  };
+
+  getAllCategories = () => {
+    axios
+      .get("http://localhost:8080/api/v1/articles/categories")
+      .then((response) => response.data)
+      .then((data) => {
+        this.setState({
+          categories: [{ value: "NA", display: "Select Category" }].concat(
+            data.map((category) => {
+              return { value: category, display: category };
+            })
+          ),
+        });
+      });
   };
 
   changeTitle = (event) => {
@@ -118,6 +142,11 @@ class Article extends Component {
 
   changecoverPhotoURL = (event) => {
     this.setState({ coverPhotoURL: event.target.value });
+  };
+
+  changeCategory = (event) => {
+    this.setState({ category: event.target.value });
+    console.log(this.state.category);
   };
 
   navigateToArticleList = () => {
@@ -196,6 +225,23 @@ class Article extends Component {
                   required={true}
                   autoComplete="off"
                 />
+              </div>
+              <div className="form-group mb-3 col-md-5">
+                <label className="form-label">Category</label>
+                <select
+                  name="category"
+                  className="form-control bg-dark text-white"
+                  id="formCategory"
+                  value={this.state.category}
+                  onChange={this.changeCategory}
+                  required={true}
+                >
+                  {this.state.categories.map((category) => (
+                    <option key={category.value} value={category.value}>
+                      {category.display}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="form-group mb-3">
                 <label className="form-label">Content</label>

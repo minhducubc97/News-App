@@ -10,12 +10,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -53,6 +52,7 @@ public class ArticleController implements ControllerInterface<Article> {
         article.setTitle(articleToUpdate.getTitle());
         article.setCoverPhotoURL(articleToUpdate.getCoverPhotoURL());
         article.setContent(articleToUpdate.getContent());
+        article.setCategory(articleToUpdate.getCategory());
         return new ResponseEntity<>(articleRepository.save(article), HttpStatus.OK);
     }
 
@@ -65,5 +65,12 @@ public class ArticleController implements ControllerInterface<Article> {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return new ResponseEntity<>(articleRepository.save(article), HttpStatus.OK);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<Set<String>> getAllCategories() {
+        TreeSet<String> treeSet = new TreeSet<>(Arrays.asList("Technology", "Science", "Entertainment", "Health",
+                "Business", "Politics"));
+        return new ResponseEntity<Set<String>>(treeSet, HttpStatus.OK);
     }
 }
