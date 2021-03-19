@@ -1,7 +1,6 @@
 package com.ducnguyen.news.controller;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +8,7 @@ import java.util.Collection;
 
 public interface ControllerInterface<T> {
     @GetMapping
-    ResponseEntity<Page<T>> getAll(Pageable pageable);
+    ResponseEntity<Page<T>> getAll(int pageNumber, int pageSize, String sortBy, String sortDir);
 
     @GetMapping("{id}")
     ResponseEntity<T> getById(@PathVariable Long id);

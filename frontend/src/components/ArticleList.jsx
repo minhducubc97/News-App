@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import MyToast from "./MyToast";
+import "./style.css";
 
 class ArticleList extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class ArticleList extends Component {
       articlesPerPage: 10,
       totalPages: 0,
       totalElements: 0,
+      sortDir: "asc",
     };
     this.changePage = this.changePage.bind(this);
     this.deleteArticle = this.deleteArticle.bind(this);
@@ -38,10 +40,12 @@ class ArticleList extends Component {
   getArticles = (curPage) => {
     axios
       .get(
-        "http://localhost:8080/api/v1/articles?page=" +
+        "http://localhost:8080/api/v1/articles?pageNumber=" +
           (curPage - 1) +
-          "&size=" +
-          this.state.articlesPerPage
+          "&pageSize=" +
+          this.state.articlesPerPage +
+          "&sortBy=author&sortDir=" +
+          this.state.sortDir
       )
       .then((response) => response.data)
       .then((data) => {
@@ -103,6 +107,15 @@ class ArticleList extends Component {
     this.setState({ [event.target.name]: targetPage });
   };
 
+  sortData = () => {
+    setTimeout(() => {
+      this.state.sortDir === "asc"
+        ? this.setState({ sortDir: "desc" })
+        : this.setState({ sortDir: "asc" });
+      this.getArticles(this.state.curPage);
+    }, 300);
+  };
+
   render() {
     const {
       articles,
@@ -140,7 +153,16 @@ class ArticleList extends Component {
               <thead>
                 <tr>
                   <th scope="col">Title</th>
-                  <th scope="col">Author</th>
+                  <th scope="col" onClick={this.sortData}>
+                    Author
+                    <div
+                      className={
+                        this.state.sortDir === "asc"
+                          ? "arrow arrow-down"
+                          : "arrow arrow-up"
+                      }
+                    ></div>
+                  </th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
