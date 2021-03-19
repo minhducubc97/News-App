@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faList,
+  faEdit,
+  faTrash,
+  faFastBackward,
+  faStepBackward,
+  faStepForward,
+  faFastForward,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import MyToast from "./MyToast";
 
@@ -10,8 +18,15 @@ class ArticleList extends Component {
     this.state = {
       articles: [],
       showSuccess: false,
+      curPage: 1,
+      articlesPerPage: 10,
     };
+    this.changePage = this.changePage.bind(this);
     this.deleteArticle = this.deleteArticle.bind(this);
+    this.firstPage = this.firstPage.bind(this);
+    this.previousPage = this.previousPage.bind(this);
+    this.nextPage = this.nextPage.bind(this);
+    this.lastPage = this.lastPage.bind(this);
   }
 
   componentDidMount() {
@@ -46,13 +61,68 @@ class ArticleList extends Component {
       });
   };
 
+  firstPage = () => {
+    if (this.state.curPage > 1) {
+      this.setState({
+        curPage: 1,
+      });
+    }
+  };
+
+  previousPage = () => {
+    if (this.state.curPage > 1) {
+      this.setState({
+        curPage: this.state.curPage - 1,
+      });
+    }
+  };
+
+  nextPage = () => {
+    if (
+      this.state.curPage <
+      Math.ceil(this.state.articles.length / this.state.articlesPerPage)
+    ) {
+      this.setState({
+        curPage: this.state.curPage + 1,
+      });
+    }
+  };
+
+  lastPage = () => {
+    var totalPages = Math.ceil(
+      this.state.articles.length / this.state.articlesPerPage
+    );
+    if (this.state.curPage < totalPages) {
+      this.setState({
+        curPage: totalPages,
+      });
+    }
+  };
+
+  changePage = (event) => {
+    this.setState({ [event.target.name]: parseInt(event.target.value) });
+  };
+
   render() {
+    const { articles, showSuccess, curPage, articlesPerPage } = this.state;
+    const lastIdx = curPage * articlesPerPage;
+    const firstIdx = lastIdx - articlesPerPage;
+    const curArticleList = articles.slice(firstIdx, lastIdx);
+    const totalPages = Math.ceil(articles.length / articlesPerPage);
+    const pageNumCss = {
+      width: "50px",
+      border: "1px solid #17A2B8",
+      textAlign: "center",
+      fontWeight: "bold",
+      color: "#17A2B8",
+    };
+
     return (
       <div>
-        <div style={{ display: this.state.showSuccess ? "block" : "none" }}>
+        <div style={{ display: showSuccess ? "block" : "none" }}>
           <MyToast
             children={{
-              show: this.state.showSuccess,
+              show: showSuccess,
               message: "Article deleted successfully!",
             }}
           />
@@ -72,12 +142,12 @@ class ArticleList extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.articles.length === 0 ? (
+                {articles.length === 0 ? (
                   <tr align="center">
                     <td colSpan="6">No articles found!</td>
                   </tr>
                 ) : (
-                  this.state.articles.map((article) => (
+                  curArticleList.map((article) => (
                     <tr key={article.id}>
                       <td>
                         <img
@@ -111,6 +181,62 @@ class ArticleList extends Component {
                 )}
               </tbody>
             </table>
+          </div>
+          <div className="card-footer">
+            <div className="float-start">
+              Page {curPage} of {totalPages}
+            </div>
+            <div className="float-end">
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <button
+                    className="btn btn-outline-info"
+                    type="button"
+                    disabled={curPage === 1 ? true : false}
+                    onClick={this.firstPage}
+                  >
+                    <FontAwesomeIcon icon={faFastBackward} />
+                    &nbsp; First
+                  </button>
+                  <button
+                    className="btn btn-outline-info"
+                    type="button"
+                    disabled={curPage === 1 ? true : false}
+                    onClick={this.previousPage}
+                  >
+                    <FontAwesomeIcon icon={faStepBackward} />
+                    &nbsp; Previous
+                  </button>
+                </div>
+                <input
+                  className="form-control bg-dark"
+                  style={pageNumCss}
+                  value={curPage}
+                  name="curPage"
+                  onChange={this.changePage}
+                />
+                <div className="input-group-prepend">
+                  <button
+                    className="btn btn-outline-info"
+                    type="button"
+                    disabled={curPage === totalPages ? true : false}
+                    onClick={this.nextPage}
+                  >
+                    <FontAwesomeIcon icon={faStepForward} />
+                    &nbsp; Next
+                  </button>
+                  <button
+                    className="btn btn-outline-info"
+                    type="button"
+                    disabled={curPage === totalPages ? true : false}
+                    onClick={this.lastPage}
+                  >
+                    <FontAwesomeIcon icon={faFastForward} />
+                    &nbsp; Last
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

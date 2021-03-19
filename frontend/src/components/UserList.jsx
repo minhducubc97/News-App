@@ -157,7 +157,7 @@ class UserList extends Component {
                   </button>
                 </div>
                 <input
-                  class="form-control bg-dark"
+                  className="form-control bg-dark"
                   style={pageNumCss}
                   value={curPage}
                   name="curPage"
