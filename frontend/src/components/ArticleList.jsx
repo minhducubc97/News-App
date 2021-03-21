@@ -34,6 +34,9 @@ class ArticleList extends Component {
     this.previousPage = this.previousPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.lastPage = this.lastPage.bind(this);
+    this.changeSearch = this.changeSearch.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
+    this.searchString = this.searchString.bind(this);
   }
 
   componentDidMount() {
@@ -41,10 +44,11 @@ class ArticleList extends Component {
   }
 
   getArticles = (curPage) => {
+    curPage -= 1;
     axios
       .get(
         "http://localhost:8080/api/v1/articles?pageNumber=" +
-          (curPage - 1) +
+          curPage +
           "&pageSize=" +
           this.state.articlesPerPage +
           "&sortBy=author&sortDir=" +
@@ -82,32 +86,83 @@ class ArticleList extends Component {
 
   firstPage = () => {
     if (this.state.curPage > 1) {
-      this.getArticles(1);
+      if (this.state.search) {
+        this.searchString(1);
+      } else {
+        this.getArticles(1);
+      }
     }
   };
 
   previousPage = () => {
     if (this.state.curPage > 1) {
-      this.getArticles(this.state.curPage - 1);
+      if (this.state.search) {
+        this.searchString(this.state.curPage - 1);
+      } else {
+        this.getArticles(this.state.curPage - 1);
+      }
     }
   };
 
   nextPage = () => {
     if (this.state.curPage < this.state.totalPages) {
-      this.getArticles(this.state.curPage + 1);
+      if (this.state.search) {
+        this.searchString(this.state.curPage + 1);
+      } else {
+        this.getArticles(this.state.curPage + 1);
+      }
     }
   };
 
   lastPage = () => {
     if (this.state.curPage < this.state.totalPages) {
-      this.getArticles(this.state.totalPages);
+      if (this.state.search) {
+        this.searchString(this.state.totalPages);
+      } else {
+        this.getArticles(this.state.totalPages);
+      }
     }
   };
 
   changePage = (event) => {
     let targetPage = parseInt(event.target.value);
-    this.getArticles(targetPage);
+    if (this.state.search) {
+      this.searchString(targetPage);
+    } else {
+      this.getArticles(targetPage);
+    }
     this.setState({ [event.target.name]: targetPage });
+  };
+
+  changeSearch = (event) => {
+    this.setState({ search: event.target.value });
+  };
+
+  clearSearch = () => {
+    this.setState({ search: "" });
+    this.getArticles(this.state.curPage);
+  };
+
+  searchString = (curPage) => {
+    curPage -= 1;
+    axios
+      .get(
+        "http://localhost:8080/api/v1/articles/search/" +
+          this.state.search +
+          "?page=" +
+          curPage +
+          "&size=" +
+          this.state.articlesPerPage
+      )
+      .then((response) => response.data)
+      .then((data) => {
+        this.setState({
+          articles: data.content,
+          totalPages: data.totalPages,
+          totalElements: data.totalElements,
+          curPage: data.number + 1,
+        });
+      });
   };
 
   sortData = () => {
@@ -154,17 +209,24 @@ class ArticleList extends Component {
             </div>
             <div style={{ float: "right" }}>
               <div className="input-group input-group-sm">
-                <div
+                <input
                   className="form-control"
                   placeholder="Search"
-                  name="search"
+                  id="searchBox"
                   value={this.state.search}
-                  className="bg-dark text-white"
-                ></div>
-                <button className="btn btn-sm btn-outline-info">
+                  className="bg-dark text-white border-1"
+                  onChange={this.changeSearch}
+                ></input>
+                <button
+                  className="btn btn-sm btn-outline-info"
+                  onClick={this.searchString}
+                >
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
-                <button className="btn btn-sm btn-outline-danger">
+                <button
+                  className="btn btn-sm btn-outline-danger"
+                  onClick={this.clearSearch}
+                >
                   <FontAwesomeIcon icon={faTimes} />
                 </button>
               </div>

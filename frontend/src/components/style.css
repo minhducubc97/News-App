@@ -15,3 +15,7 @@
 .arrow-down {
   border-top: 10px solid white;
 }
+
+#searchBox {
+  border: 1px solid #17a2b8;
+}

@@ -1,12 +1,16 @@
 package com.ducnguyen.news.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
 public interface ControllerInterface<T> {
+    @GetMapping("/search/{searchText}")
+    ResponseEntity<Page<T>> getAllCustomized(Pageable pageable, @PathVariable String searchText);
+
     @GetMapping
     ResponseEntity<Page<T>> getAll(int pageNumber, int pageSize, String sortBy, String sortDir);
 
