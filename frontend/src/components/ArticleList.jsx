@@ -8,6 +8,8 @@ import {
   faStepBackward,
   faStepForward,
   faFastForward,
+  faSearch,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import MyToast from "./MyToast";
@@ -18,6 +20,7 @@ class ArticleList extends Component {
     super(props);
     this.state = {
       articles: [],
+      search: "",
       showSuccess: false,
       curPage: 1,
       articlesPerPage: 10,
@@ -145,8 +148,27 @@ class ArticleList extends Component {
         </div>
         <div className="card border border-dark bg-dark text-white">
           <div className="card-header">
-            <FontAwesomeIcon icon={faList} />
-            &nbsp;List of Articles
+            <div style={{ float: "left" }}>
+              <FontAwesomeIcon icon={faList} />
+              &nbsp;List of Articles
+            </div>
+            <div style={{ float: "right" }}>
+              <div className="input-group input-group-sm">
+                <div
+                  className="form-control"
+                  placeholder="Search"
+                  name="search"
+                  value={this.state.search}
+                  className="bg-dark text-white"
+                ></div>
+                <button className="btn btn-sm btn-outline-info">
+                  <FontAwesomeIcon icon={faSearch} />
+                </button>
+                <button className="btn btn-sm btn-outline-danger">
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </div>
+            </div>
           </div>
           <div className="card-body">
             <table className="table table-dark table-hover table-bordered table-striped">

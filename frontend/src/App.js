@@ -7,6 +7,8 @@ import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import UserList from "./components/UserList";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
               <Route path="/edit/:id" exact component={Article} />
               <Route path="/articles" exact component={ArticleList} />
               <Route path="/users" exact component={UserList} />
+              <Route path="/login" exact component={() => <Login />} />
+              <Route path="/register" exact component={Register} />
             </Switch>
           </div>
         </div>
