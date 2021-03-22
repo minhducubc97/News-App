@@ -7,6 +7,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import MyToast from "./MyToast";
+import { connect } from "react-redux";
+import { saveArticle } from "../services/functions";
 
 class Article extends Component {
   constructor(props) {
@@ -74,17 +76,16 @@ class Article extends Component {
       content: this.state.content,
       category: this.state.category,
     };
-    axios
-      .post("http://localhost:8080/api/v1/articles", article)
-      .then((response) => {
-        if (response.data !== null) {
-          this.setState({ showSuccess: true, method: "post" });
-          setTimeout(() => this.setState({ showSuccess: false }), 3000);
-          setTimeout(() => this.navigateToArticleList(), 2000);
-        } else {
-          this.setState({ showSuccess: false });
-        }
-      });
+    this.props.saveArticle(article);
+    setTimeout(() => {
+      if (this.props.articleObject.article != null) {
+        this.setState({ showSuccess: true, method: "post" });
+        setTimeout(() => this.setState({ showSuccess: false }), 3000);
+        setTimeout(() => this.navigateToArticleList(), 2000);
+      } else {
+        this.setState({ showSuccess: false });
+      }
+    }, 2000);
     this.setState(this.initialState);
   };
 
@@ -271,4 +272,16 @@ class Article extends Component {
   }
 }
 
-export default Article;
+const mapStateToProps = (state) => {
+  return {
+    articleObject: state.article,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveArticle: (article) => dispatch(saveArticle(article)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Article);

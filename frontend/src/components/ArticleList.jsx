@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import MyToast from "./MyToast";
-import "./style.css";
+import "./../assets/style.css";
 
 class ArticleList extends Component {
   constructor(props) {

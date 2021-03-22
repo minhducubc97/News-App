@@ -8,7 +8,7 @@ import {
   faFastForward,
 } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
-import { fetchUsers } from "../services/user/userActions";
+import { fetchUsers } from "../services/functions";
 
 class UserList extends Component {
   constructor(props) {
