@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import UserList from "./components/UserList";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import { Provider } from "react-redux";
+import store from "./services/store";
 
 function App() {
   return (
@@ -22,7 +24,15 @@ function App() {
               <Route path="/add-article" exact component={Article} />
               <Route path="/edit/:id" exact component={Article} />
               <Route path="/articles" exact component={ArticleList} />
-              <Route path="/users" exact component={UserList} />
+              <Route
+                path="/users"
+                exact
+                component={() => (
+                  <Provider store={store}>
+                    <UserList />
+                  </Provider>
+                )}
+              />
               <Route path="/login" exact component={() => <Login />} />
               <Route path="/register" exact component={Register} />
             </Switch>

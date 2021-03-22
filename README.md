@@ -2,7 +2,7 @@
 
 # News App (CRUD)
 
-A News web app that allows creating/editing/deleting/viewing articles, while maintaining a list of users.
+A News web app that allows creating/editing/deleting/viewing/searching articles, while maintaining a list of users.
 
 # Demonstration
 
@@ -14,15 +14,17 @@ A News web app that allows creating/editing/deleting/viewing articles, while mai
 
 ## Current functionalities (ongoing):
 
-- View the list of articles
+- View the list of articles (sorting included)
 - Create new article
 - Edit existing article
 - Delete article
+- Search for article with keyword 
 - View the list of users
 
 ## References/Libraries:
 
 - React
+- Redux
 - Bootstrap
 - Springboot
 - [Font Awesome](https://github.com/FortAwesome/Font-Awesome)
