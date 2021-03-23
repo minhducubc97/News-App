@@ -40,7 +40,7 @@ export const updateArticle = (article) => {
   return (dispatch) => {
     dispatch(updateArticleRequest());
     axios
-      .put("http://localhost:8080/api/v1/articles", article)
+      .put("http://localhost:8080/api/v1/articles/" + article.id, article)
       .then((response) => {
         dispatch(articleSuccess(response.data));
       })

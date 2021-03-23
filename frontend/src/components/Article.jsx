@@ -51,6 +51,13 @@ class Article extends Component {
     this.getAllCategories();
   };
 
+  componentWillUnmount() {
+    // fix Warning: Can't perform a React state update on an unmounted component
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
+
   getArticleById = (articleId) => {
     this.props.getArticle(articleId);
     setTimeout(() => {
@@ -86,12 +93,11 @@ class Article extends Component {
       } else {
         this.setState({ showSuccess: false });
       }
-    }, 2000);
+    }, 1000);
     this.setState(this.initialState);
   };
 
   editArticle = (event) => {
-    console.log(this.state.category);
     event.preventDefault(); // refresh the state
     const article = {
       id: this.state.id,
@@ -102,6 +108,7 @@ class Article extends Component {
       category: this.state.category,
     };
     this.props.updateArticle(article);
+    console.log("DEBUG");
     setTimeout(() => {
       if (this.props.updateArticleObject.article != null) {
         this.setState({ showSuccess: true, method: "put" });
@@ -110,7 +117,7 @@ class Article extends Component {
       } else {
         this.setState({ showSuccess: false });
       }
-    }, 2000);
+    }, 1000);
     this.setState(this.initialState);
   };
 
