@@ -2,6 +2,7 @@ import {
   ARTICLE_GET_REQUEST,
   ARTICLE_POST_REQUEST,
   ARTICLE_PUT_REQUEST,
+  ARTICLE_DELETE_REQUEST,
   ARTICLE_SUCCESS,
   ARTICLE_FAILURE,
 } from "./articleTypes";
@@ -13,15 +14,10 @@ const initialState = {
 
 const articleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ARTICLE_POST_REQUEST:
-      return {
-        ...state,
-      };
-    case ARTICLE_GET_REQUEST:
-      return {
-        ...state,
-      };
-    case ARTICLE_PUT_REQUEST:
+    case ARTICLE_POST_REQUEST ||
+      ARTICLE_GET_REQUEST ||
+      ARTICLE_PUT_REQUEST ||
+      ARTICLE_DELETE_REQUEST:
       return {
         ...state,
       };

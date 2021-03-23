@@ -3,6 +3,8 @@ package com.ducnguyen.news.controller;
 import com.ducnguyen.news.exception.ResourceNotFoundException;
 import com.ducnguyen.news.model.Article;
 import com.ducnguyen.news.repository.ArticleRepository;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -60,14 +62,15 @@ public class ArticleController implements ControllerInterface<Article> {
     }
 
     @Override
-    public ResponseEntity<Article> deleteById(Long id) {
-        Article article =
-                articleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Article " + id + " " +
-                        "not found!"));
-        articleRepository.delete(article);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return new ResponseEntity<>(articleRepository.save(article), HttpStatus.OK);
+    public ResponseEntity<String> deleteById(Long id) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            articleRepository.deleteById(id);
+            jsonObject.put("message", "Article deleted successfully");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/categories")

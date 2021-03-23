@@ -14,6 +14,8 @@ import {
 import axios from "axios";
 import MyToast from "./MyToast";
 import "./../assets/style.css";
+import { connect } from "react-redux";
+import { deleteArticle } from "../services/functions";
 
 class ArticleList extends Component {
   constructor(props) {
@@ -66,22 +68,16 @@ class ArticleList extends Component {
   };
 
   deleteArticle = (articleId) => {
-    axios
-      .delete("http://localhost:8080/api/v1/articles/" + articleId)
-      .then((response) => response.data)
-      .then((data) => {
-        if (data !== null) {
-          this.setState({ showSuccess: true });
-          setTimeout(() => this.setState({ showSuccess: false }), 5000);
-          this.setState({
-            articles: this.state.articles.filter(
-              (article) => article.id !== articleId
-            ),
-          });
-        } else {
-          this.setState({ showSuccess: false });
-        }
-      });
+    this.props.deleteArticle(articleId);
+    setTimeout(() => {
+      if (this.props.deleteArticleObject !== null) {
+        this.setState({ showSuccess: true });
+        setTimeout(() => this.setState({ showSuccess: false }), 5000);
+        this.getArticles(this.state.curPage);
+      } else {
+        this.setState({ showSuccess: false });
+      }
+    }, 1000);
   };
 
   firstPage = () => {
@@ -242,8 +238,8 @@ class ArticleList extends Component {
                     <div
                       className={
                         this.state.sortDir === "asc"
-                          ? "arrow arrow-down"
-                          : "arrow arrow-up"
+                          ? "arrow arrow-up"
+                          : "arrow arrow-down"
                       }
                     ></div>
                   </th>
@@ -355,4 +351,16 @@ class ArticleList extends Component {
   }
 }
 
-export default ArticleList;
+const mapStateToProps = (state) => {
+  return {
+    deleteArticleObject: state.article,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteArticle: (articleId) => dispatch(deleteArticle(articleId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleList);

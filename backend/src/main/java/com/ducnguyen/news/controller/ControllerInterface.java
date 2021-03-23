@@ -24,5 +24,5 @@ public interface ControllerInterface<T> {
     ResponseEntity<T> update(@PathVariable Long id, @RequestBody T t);
 
     @DeleteMapping("{id}")
-    ResponseEntity<T> deleteById(@PathVariable Long id);
+    ResponseEntity<String> deleteById(@PathVariable Long id);
 }

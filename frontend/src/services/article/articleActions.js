@@ -2,6 +2,7 @@ import {
   ARTICLE_GET_REQUEST,
   ARTICLE_POST_REQUEST,
   ARTICLE_PUT_REQUEST,
+  ARTICLE_DELETE_REQUEST,
   ARTICLE_SUCCESS,
   ARTICLE_FAILURE,
 } from "./articleTypes";
@@ -39,7 +40,21 @@ export const updateArticle = (article) => {
   return (dispatch) => {
     dispatch(updateArticleRequest());
     axios
-      .post("http://localhost:8080/api/v1/articles", article)
+      .put("http://localhost:8080/api/v1/articles", article)
+      .then((response) => {
+        dispatch(articleSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(articleFailure(error.message));
+      });
+  };
+};
+
+export const deleteArticle = (articleId) => {
+  return (dispatch) => {
+    dispatch(deleteArticleRequest());
+    axios
+      .delete("http://localhost:8080/api/v1/articles/" + articleId)
       .then((response) => {
         dispatch(articleSuccess(response.data));
       })
@@ -64,6 +79,12 @@ const createArticleRequest = () => {
 const updateArticleRequest = () => {
   return {
     type: ARTICLE_PUT_REQUEST,
+  };
+};
+
+const deleteArticleRequest = () => {
+  return {
+    type: ARTICLE_DELETE_REQUEST,
   };
 };
 
