@@ -1,8 +1,4 @@
-import {
-  FETCH_USER_REQUEST,
-  FETCH_USER_SUCCESS,
-  FETCH_USER_FAILURE,
-} from "./userTypes";
+import { USER_GET_REQUEST, USER_SUCCESS, USER_FAILURE } from "./userTypes";
 import axios from "axios";
 
 export const fetchUsers = () => {
@@ -23,20 +19,20 @@ export const fetchUsers = () => {
 
 const fetchUserRequest = () => {
   return {
-    type: FETCH_USER_REQUEST,
+    type: USER_GET_REQUEST,
   };
 };
 
 const fetchUserSuccess = (users) => {
   return {
-    type: FETCH_USER_SUCCESS,
+    type: USER_SUCCESS,
     payload: users,
   };
 };
 
 const fetchUserFailure = (error) => {
   return {
-    type: FETCH_USER_FAILURE,
+    type: USER_FAILURE,
     payload: error,
   };
 };

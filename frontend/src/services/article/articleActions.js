@@ -1,40 +1,82 @@
 import {
-  SAVE_ARTICLE_REQUEST,
-  SAVE_ARTICLE_SUCCESS,
-  SAVE_ARTICLE_FAILURE,
+  ARTICLE_GET_REQUEST,
+  ARTICLE_POST_REQUEST,
+  ARTICLE_PUT_REQUEST,
+  ARTICLE_SUCCESS,
+  ARTICLE_FAILURE,
 } from "./articleTypes";
 import axios from "axios";
 
-export const saveArticle = (article) => {
+export const getArticle = (articleId) => {
   return (dispatch) => {
-    dispatch(saveArticleRequest());
+    dispatch(getArticleRequest());
     axios
-      .post("http://localhost:8080/api/v1/articles", article)
+      .get("http://localhost:8080/api/v1/articles/" + articleId)
       .then((response) => {
-        dispatch(saveArticleSuccess(response.data));
+        dispatch(articleSuccess(response.data));
       })
       .catch((error) => {
-        dispatch(saveArticleFailure(error.message));
+        dispatch(articleFailure(error.message));
       });
   };
 };
 
-const saveArticleRequest = () => {
-  return {
-    type: SAVE_ARTICLE_REQUEST,
+export const createArticle = (article) => {
+  return (dispatch) => {
+    dispatch(createArticleRequest());
+    axios
+      .post("http://localhost:8080/api/v1/articles", article)
+      .then((response) => {
+        dispatch(articleSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(articleFailure(error.message));
+      });
   };
 };
 
-const saveArticleSuccess = (article) => {
+export const updateArticle = (article) => {
+  return (dispatch) => {
+    dispatch(updateArticleRequest());
+    axios
+      .post("http://localhost:8080/api/v1/articles", article)
+      .then((response) => {
+        dispatch(articleSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(articleFailure(error.message));
+      });
+  };
+};
+
+const getArticleRequest = () => {
   return {
-    type: SAVE_ARTICLE_SUCCESS,
+    type: ARTICLE_GET_REQUEST,
+  };
+};
+
+const createArticleRequest = () => {
+  return {
+    type: ARTICLE_POST_REQUEST,
+  };
+};
+
+const updateArticleRequest = () => {
+  return {
+    type: ARTICLE_PUT_REQUEST,
+  };
+};
+
+const articleSuccess = (article) => {
+  return {
+    type: ARTICLE_SUCCESS,
     payload: article,
   };
 };
 
-const saveArticleFailure = (error) => {
+const articleFailure = (error) => {
   return {
-    type: SAVE_ARTICLE_FAILURE,
+    type: ARTICLE_FAILURE,
     payload: error,
   };
 };

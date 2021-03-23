@@ -8,7 +8,11 @@ import {
 import axios from "axios";
 import MyToast from "./MyToast";
 import { connect } from "react-redux";
-import { saveArticle } from "../services/functions";
+import {
+  getArticle,
+  createArticle,
+  updateArticle,
+} from "../services/functions";
 
 class Article extends Component {
   constructor(props) {
@@ -48,23 +52,20 @@ class Article extends Component {
   };
 
   getArticleById = (articleId) => {
-    axios
-      .get("http://localhost:8080/api/v1/articles/" + articleId)
-      .then((response) => {
-        if (response.data != null) {
-          this.setState({
-            id: response.data.id,
-            title: response.data.title,
-            author: response.data.author,
-            coverPhotoURL: response.data.coverPhotoURL,
-            content: response.data.content,
-            category: response.data.category,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("[ERROR]: " + error);
-      });
+    this.props.getArticle(articleId);
+    setTimeout(() => {
+      let article = this.props.getArticleObject.article;
+      if (article != null) {
+        this.setState({
+          id: article.id,
+          title: article.title,
+          author: article.author,
+          coverPhotoURL: article.coverPhotoURL,
+          content: article.content,
+          category: article.category,
+        });
+      }
+    }, 1000);
   };
 
   submitArticle = (event) => {
@@ -76,9 +77,9 @@ class Article extends Component {
       content: this.state.content,
       category: this.state.category,
     };
-    this.props.saveArticle(article);
+    this.props.createArticle(article);
     setTimeout(() => {
-      if (this.props.articleObject.article != null) {
+      if (this.props.createArticleObject.article != null) {
         this.setState({ showSuccess: true, method: "post" });
         setTimeout(() => this.setState({ showSuccess: false }), 3000);
         setTimeout(() => this.navigateToArticleList(), 2000);
@@ -100,17 +101,16 @@ class Article extends Component {
       content: this.state.content,
       category: this.state.category,
     };
-    axios
-      .put("http://localhost:8080/api/v1/articles/" + this.state.id, article)
-      .then((response) => {
-        if (response.data !== null) {
-          this.setState({ showSuccess: true, method: "put" });
-          setTimeout(() => this.setState({ showSuccess: false }), 3000);
-          setTimeout(() => this.navigateToArticleList(), 2000);
-        } else {
-          this.setState({ showSuccess: false });
-        }
-      });
+    this.props.updateArticle(article);
+    setTimeout(() => {
+      if (this.props.updateArticleObject.article != null) {
+        this.setState({ showSuccess: true, method: "put" });
+        setTimeout(() => this.setState({ showSuccess: false }), 3000);
+        setTimeout(() => this.navigateToArticleList(), 2000);
+      } else {
+        this.setState({ showSuccess: false });
+      }
+    }, 2000);
     this.setState(this.initialState);
   };
 
@@ -216,16 +216,27 @@ class Article extends Component {
               </div>
               <div className="form-group mb-3 col-md-5">
                 <label className="form-label">Cover Photo URL</label>
-                <input
-                  type="text"
-                  className="form-control bg-dark text-white"
-                  id="formCoverPhotoURL"
-                  placeholder="Enter article cover photo URL"
-                  value={this.state.coverPhotoURL}
-                  onChange={this.changecoverPhotoURL}
-                  required={true}
-                  autoComplete="off"
-                />
+                <div className="input-group mb-3">
+                  {" "}
+                  <input
+                    type="text"
+                    className="form-control bg-dark text-white"
+                    id="formCoverPhotoURL"
+                    placeholder="Enter article cover photo URL"
+                    value={this.state.coverPhotoURL}
+                    onChange={this.changecoverPhotoURL}
+                    required={true}
+                    autoComplete="off"
+                  />
+                  {this.state.coverPhotoURL !== "" && (
+                    <img
+                      src={this.state.coverPhotoURL}
+                      className="rounded-right"
+                      width="40"
+                      height="40"
+                    />
+                  )}
+                </div>
               </div>
               <div className="form-group mb-3 col-md-5">
                 <label className="form-label">Category</label>
@@ -274,13 +285,17 @@ class Article extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    articleObject: state.article,
+    getArticleObject: state.article,
+    createArticleObject: state.article,
+    updateArticleObject: state.article,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveArticle: (article) => dispatch(saveArticle(article)),
+    getArticle: (articleId) => dispatch(getArticle(articleId)),
+    createArticle: (article) => dispatch(createArticle(article)),
+    updateArticle: (article) => dispatch(updateArticle(article)),
   };
 };
 

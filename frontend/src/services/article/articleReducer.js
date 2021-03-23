@@ -1,7 +1,9 @@
 import {
-  SAVE_ARTICLE_REQUEST,
-  SAVE_ARTICLE_SUCCESS,
-  SAVE_ARTICLE_FAILURE,
+  ARTICLE_GET_REQUEST,
+  ARTICLE_POST_REQUEST,
+  ARTICLE_PUT_REQUEST,
+  ARTICLE_SUCCESS,
+  ARTICLE_FAILURE,
 } from "./articleTypes";
 
 const initialState = {
@@ -11,16 +13,24 @@ const initialState = {
 
 const articleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SAVE_ARTICLE_REQUEST:
+    case ARTICLE_POST_REQUEST:
       return {
         ...state,
       };
-    case SAVE_ARTICLE_SUCCESS:
+    case ARTICLE_GET_REQUEST:
+      return {
+        ...state,
+      };
+    case ARTICLE_PUT_REQUEST:
+      return {
+        ...state,
+      };
+    case ARTICLE_SUCCESS:
       return {
         article: action.payload,
         error: "",
       };
-    case SAVE_ARTICLE_FAILURE:
+    case ARTICLE_FAILURE:
       return {
         article: "",
         error: action.payload,
