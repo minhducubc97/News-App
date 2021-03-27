@@ -1,4 +1,9 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "./authTypes";
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT_REQUEST,
+} from "./authTypes";
 
 const initialState = {
   isLoggedIn: "",
@@ -7,6 +12,10 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
+      return {
+        ...state,
+      };
+    case LOGOUT_REQUEST:
       return {
         ...state,
       };

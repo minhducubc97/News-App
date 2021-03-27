@@ -25,6 +25,7 @@ function App() {
               <Route path="/users" exact component={UserList} />
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
+              <Route path="/logout" exact component={Login} />
             </Switch>
           </div>
         </div>
