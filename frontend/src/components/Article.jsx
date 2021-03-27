@@ -292,9 +292,9 @@ class Article extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    getArticleObject: state.article,
-    createArticleObject: state.article,
-    updateArticleObject: state.article,
+    getArticleObject: state.articleReducer,
+    createArticleObject: state.articleReducer,
+    updateArticleObject: state.articleReducer,
   };
 };
 

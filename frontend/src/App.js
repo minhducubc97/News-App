@@ -23,7 +23,7 @@ function App() {
               <Route path="/edit/:id" exact component={Article} />
               <Route path="/articles" exact component={ArticleList} />
               <Route path="/users" exact component={UserList} />
-              <Route path="/login" exact component={() => <Login />} />
+              <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
             </Switch>
           </div>

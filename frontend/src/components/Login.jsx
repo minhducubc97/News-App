@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { connect } from "react-redux";
+import { authenticateUser } from "./../services/functions";
 
 class Login extends Component {
   constructor(props) {
@@ -27,34 +29,14 @@ class Login extends Component {
   };
 
   validateUser = (event) => {
-    console.log("HERERERE");
-    event.preventDefault();
-    const credentials = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    // axios
-    //   .post("http://localhost:8080/api/v1/user/authenticate", credentials)
-    //   .then((response) => {
-    //     this.props.isLoggedIn = true;
-    //     let token = response.data.token;
-    //     localStorage.setItem("jwtToken", token);
-    //     return this.props.history.push("/");
-    //   })
-    //   .catch((error) => {
-    //     this.props.isLoggedIn = false;
-    //     console.log("Error validating user!");
-    //     this.resetLoginForm();
-    //     this.setState({ error: "Invalid email and password" });
-    //   });
-    if (credentials.email === "admin" && credentials.password === "test") {
-      this.props.isLoggedIn = true;
-      return this.props.history.push("/");
-    } else {
-      this.props.isLoggedIn = false;
-      this.resetLoginForm();
-      this.setState({ error: "Invalid email and password" });
-    }
+    this.props.authenticateUser(this.state.email, this.state.password);
+    setTimeout(() => {
+      if (this.props.auth.isLoggedIn) {
+        return this.props.history.push("/");
+      } else {
+        this.setState({ error: "Invalid credentials" });
+      }
+    }, 500);
   };
 
   resetLoginForm = () => {
@@ -131,4 +113,17 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.authReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authenticateUser: (email, password) =>
+      dispatch(authenticateUser(email, password)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

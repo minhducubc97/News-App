@@ -187,7 +187,7 @@ class UserList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userData: state.user,
+    userData: state.userReducer,
   };
 };
 

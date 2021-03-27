@@ -353,7 +353,7 @@ class ArticleList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    deleteArticleObject: state.article,
+    deleteArticleObject: state.articleReducer,
   };
 };
 
