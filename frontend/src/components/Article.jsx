@@ -5,13 +5,13 @@ import {
   faSave,
   faEdit,
 } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import MyToast from "./MyToast";
 import { connect } from "react-redux";
 import {
   getArticle,
   createArticle,
   updateArticle,
+  getCategories,
 } from "../services/functions";
 
 class Article extends Component {
@@ -61,7 +61,7 @@ class Article extends Component {
   getArticleById = (articleId) => {
     this.props.getArticle(articleId);
     setTimeout(() => {
-      let article = this.props.getArticleObject.article;
+      let article = this.props.articleObject.article;
       if (article != null) {
         this.setState({
           id: article.id,
@@ -86,7 +86,7 @@ class Article extends Component {
     };
     this.props.createArticle(article);
     setTimeout(() => {
-      if (this.props.createArticleObject.article != null) {
+      if (this.props.articleObject.article != null) {
         this.setState({ showSuccess: true, method: "post" });
         setTimeout(() => this.setState({ showSuccess: false }), 3000);
         setTimeout(() => this.navigateToArticleList(), 2000);
@@ -108,9 +108,8 @@ class Article extends Component {
       category: this.state.category,
     };
     this.props.updateArticle(article);
-    console.log("DEBUG");
     setTimeout(() => {
-      if (this.props.updateArticleObject.article != null) {
+      if (this.props.articleObject.article != null) {
         this.setState({ showSuccess: true, method: "put" });
         setTimeout(() => this.setState({ showSuccess: false }), 3000);
         setTimeout(() => this.navigateToArticleList(), 2000);
@@ -122,18 +121,19 @@ class Article extends Component {
   };
 
   getAllCategories = () => {
-    axios
-      .get("http://localhost:8080/api/v1/articles/categories")
-      .then((response) => response.data)
-      .then((data) => {
+    this.props.getCategories();
+    setTimeout(() => {
+      let articleCategories = this.props.articleObject.categories;
+      if (articleCategories) {
         this.setState({
           categories: [{ value: "NA", display: "Select Category" }].concat(
-            data.map((category) => {
+            articleCategories.map((category) => {
               return { value: category, display: category };
             })
           ),
         });
-      });
+      }
+    }, 100);
   };
 
   changeTitle = (event) => {
@@ -292,9 +292,7 @@ class Article extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    getArticleObject: state.articleReducer,
-    createArticleObject: state.articleReducer,
-    updateArticleObject: state.articleReducer,
+    articleObject: state.articleReducer,
   };
 };
 
@@ -303,6 +301,7 @@ const mapDispatchToProps = (dispatch) => {
     getArticle: (articleId) => dispatch(getArticle(articleId)),
     createArticle: (article) => dispatch(createArticle(article)),
     updateArticle: (article) => dispatch(updateArticle(article)),
+    getCategories: () => dispatch(getCategories()),
   };
 };
 

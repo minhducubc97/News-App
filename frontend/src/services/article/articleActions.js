@@ -5,6 +5,9 @@ import {
   ARTICLE_DELETE_REQUEST,
   ARTICLE_SUCCESS,
   ARTICLE_FAILURE,
+  CATEGORIES_GET_REQUEST,
+  CATEGORIES_SUCCESS,
+  CATEGORIES_FAILURE,
 } from "./articleTypes";
 import axios from "axios";
 
@@ -60,6 +63,28 @@ export const deleteArticle = (articleId) => {
       })
       .catch((error) => {
         dispatch(articleFailure(error.message));
+      });
+  };
+};
+
+export const getCategories = () => {
+  return (dispatch) => {
+    dispatch({
+      type: CATEGORIES_GET_REQUEST,
+    });
+    axios
+      .get("http://localhost:8080/api/v1/articles/categories")
+      .then((response) => {
+        dispatch({
+          type: CATEGORIES_SUCCESS,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: CATEGORIES_FAILURE,
+          payload: error,
+        });
       });
   };
 };

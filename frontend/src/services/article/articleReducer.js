@@ -5,6 +5,9 @@ import {
   ARTICLE_DELETE_REQUEST,
   ARTICLE_SUCCESS,
   ARTICLE_FAILURE,
+  CATEGORIES_GET_REQUEST,
+  CATEGORIES_SUCCESS,
+  CATEGORIES_FAILURE,
 } from "./articleTypes";
 
 const initialState = {
@@ -14,10 +17,11 @@ const initialState = {
 
 const articleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ARTICLE_POST_REQUEST ||
-      ARTICLE_GET_REQUEST ||
-      ARTICLE_PUT_REQUEST ||
-      ARTICLE_DELETE_REQUEST:
+    case ARTICLE_POST_REQUEST:
+    case ARTICLE_GET_REQUEST:
+    case ARTICLE_PUT_REQUEST:
+    case ARTICLE_DELETE_REQUEST:
+    case CATEGORIES_GET_REQUEST:
       return {
         ...state,
       };
@@ -29,6 +33,16 @@ const articleReducer = (state = initialState, action) => {
     case ARTICLE_FAILURE:
       return {
         article: "",
+        error: action.payload,
+      };
+    case CATEGORIES_SUCCESS:
+      return {
+        categories: action.payload,
+        error: "",
+      };
+    case CATEGORIES_FAILURE:
+      return {
+        categories: "",
         error: action.payload,
       };
     default:
