@@ -14,6 +14,7 @@ A News web app that allows creating/editing/deleting/viewing/searching articles,
 
 ## Current functionalities (ongoing):
 
+- Authentication with login
 - View the list of articles (sorting included)
 - Create new article
 - Edit existing article
@@ -27,5 +28,6 @@ A News web app that allows creating/editing/deleting/viewing/searching articles,
 - Redux
 - Bootstrap
 - Springboot
+- Spring Security
 - [Font Awesome](https://github.com/FortAwesome/Font-Awesome)
 - [Random API](https://randomapi.com/)
