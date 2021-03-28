@@ -19,17 +19,17 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/articles")
-public class ArticleController implements ControllerInterface<Article> {
+public class ArticleController implements IPageController<Article> {
     @Autowired
     private ArticleRepository articleRepository;
 
     @Override
-    public ResponseEntity<Page<Article>> getAllCustomized(Pageable pageable, @PathVariable String searchText) {
+    public ResponseEntity<Page<Article>> getAllPage(Pageable pageable, @PathVariable String searchText) {
         return new ResponseEntity<>(articleRepository.findAllCustomized(pageable, searchText), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Page<Article>> getAll(int pageNumber, int pageSize, String sortBy, String sortDir) {
+    public ResponseEntity<Page<Article>> getAllPage(int pageNumber, int pageSize, String sortBy, String sortDir) {
         return new ResponseEntity<>(articleRepository.findAll(PageRequest.of(pageNumber, pageSize,
                 sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
                 HttpStatus.OK);

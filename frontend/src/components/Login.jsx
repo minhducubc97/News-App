@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { connect } from "react-redux";
 import { authenticateUser } from "./../services/functions";
 

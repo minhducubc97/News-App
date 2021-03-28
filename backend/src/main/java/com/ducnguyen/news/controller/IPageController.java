@@ -5,14 +5,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
-public interface ControllerInterface<T> {
+public interface IPageController<T> {
     @GetMapping("/search/{searchText}")
-    ResponseEntity<Page<T>> getAllCustomized(Pageable pageable, @PathVariable String searchText);
+    ResponseEntity<Page<T>> getAllPage(Pageable pageable, @PathVariable String searchText);
 
     @GetMapping
-    ResponseEntity<Page<T>> getAll(int pageNumber, int pageSize, String sortBy, String sortDir);
+    ResponseEntity<Page<T>> getAllPage(int pageNumber, int pageSize, String sortBy, String sortDir);
 
     @GetMapping("{id}")
     ResponseEntity<T> getById(@PathVariable Long id);

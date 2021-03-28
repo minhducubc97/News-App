@@ -54,7 +54,8 @@ class ArticleList extends Component {
           "&pageSize=" +
           this.state.articlesPerPage +
           "&sortBy=author&sortDir=" +
-          this.state.sortDir
+          this.state.sortDir,
+        { headers: { Authorization: localStorage.getItem("jwtToken") } }
       )
       .then((response) => response.data)
       .then((data) => {
@@ -148,7 +149,8 @@ class ArticleList extends Component {
           "?page=" +
           curPage +
           "&size=" +
-          this.state.articlesPerPage
+          this.state.articlesPerPage,
+        { headers: { Authorization: localStorage.getItem("jwtToken") } }
       )
       .then((response) => response.data)
       .then((data) => {

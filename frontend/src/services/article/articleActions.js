@@ -15,7 +15,9 @@ export const getArticle = (articleId) => {
   return (dispatch) => {
     dispatch(getArticleRequest());
     axios
-      .get("http://localhost:8080/api/v1/articles/" + articleId)
+      .get("http://localhost:8080/api/v1/articles/" + articleId, {
+        headers: { Authorization: localStorage.getItem("jwtToken") },
+      })
       .then((response) => {
         dispatch(articleSuccess(response.data));
       })
@@ -29,7 +31,9 @@ export const createArticle = (article) => {
   return (dispatch) => {
     dispatch(createArticleRequest());
     axios
-      .post("http://localhost:8080/api/v1/articles", article)
+      .post("http://localhost:8080/api/v1/articles", article, {
+        headers: { Authorization: localStorage.getItem("jwtToken") },
+      })
       .then((response) => {
         dispatch(articleSuccess(response.data));
       })
@@ -43,7 +47,9 @@ export const updateArticle = (article) => {
   return (dispatch) => {
     dispatch(updateArticleRequest());
     axios
-      .put("http://localhost:8080/api/v1/articles/" + article.id, article)
+      .put("http://localhost:8080/api/v1/articles/" + article.id, article, {
+        headers: { Authorization: localStorage.getItem("jwtToken") },
+      })
       .then((response) => {
         dispatch(articleSuccess(response.data));
       })
@@ -57,7 +63,9 @@ export const deleteArticle = (articleId) => {
   return (dispatch) => {
     dispatch(deleteArticleRequest());
     axios
-      .delete("http://localhost:8080/api/v1/articles/" + articleId)
+      .delete("http://localhost:8080/api/v1/articles/" + articleId, {
+        headers: { Authorization: localStorage.getItem("jwtToken") },
+      })
       .then((response) => {
         dispatch(articleSuccess(response.data));
       })
@@ -73,7 +81,9 @@ export const getCategories = () => {
       type: CATEGORIES_GET_REQUEST,
     });
     axios
-      .get("http://localhost:8080/api/v1/articles/categories")
+      .get("http://localhost:8080/api/v1/articles/categories", {
+        headers: { Authorization: localStorage.getItem("jwtToken") },
+      })
       .then((response) => {
         dispatch({
           type: CATEGORIES_SUCCESS,

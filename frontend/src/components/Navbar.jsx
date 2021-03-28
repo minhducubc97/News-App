@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { logoutUser } from "../services/functions";
 
 class Navbar extends Component {
@@ -15,49 +16,80 @@ class Navbar extends Component {
   };
 
   render() {
+    // const guestNav = (
+    //   <div className="collapse navbar-collapse me-4">
+    //     <ul className="navbar-nav ms-auto">
+    //       <li className="nav-item active">
+    //         <a className="nav-link" href="/login">
+    //           Login
+    //         </a>
+    //       </li>
+    //       <li className="nav-item">
+    //         <a className="nav-link" href="/register">
+    //           Register
+    //         </a>
+    //       </li>
+    //     </ul>
+    //   </div>
+    // );
+    // const memberNav = (
+    //   <div className="collapse navbar-collapse me-4">
+    //     <ul className="navbar-nav me-auto">
+    //       <li className="nav-item active">
+    //         <a className="nav-link" href="/add-article">
+    //           Add Article
+    //         </a>
+    //       </li>
+    //       <li className="nav-item">
+    //         <a className="nav-link" href="/articles">
+    //           Article List
+    //         </a>
+    //       </li>
+    //       <li className="nav-item">
+    //         <a className="nav-link" href="/users">
+    //           User List
+    //         </a>
+    //       </li>
+    //     </ul>
+    //     <ul className="navbar-nav ms-auto">
+    //       <li className="nav-item active">
+    //         <a className="nav-link" href="/logout" onClick={this.logout}>
+    //           Logout
+    //         </a>
+    //       </li>
+    //     </ul>
+    //   </div>
+    // );
+
     const guestNav = (
-      <div class="collapse navbar-collapse me-4">
-        <ul className="navbar-nav ms-auto">
-          <li className="nav-item active">
-            <a className="nav-link" href="/login">
-              Login
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="/register">
-              Register
-            </a>
-          </li>
-        </ul>
+      <div className="navbar-nav ms-auto me-4">
+        <Link to={"login"} className="nav-link">
+          Login
+        </Link>
+        <Link to={"register"} className="nav-link">
+          Register
+        </Link>
       </div>
     );
     const memberNav = (
-      <div class="collapse navbar-collapse me-4">
-        <ul className="navbar-nav me-auto">
-          <li className="nav-item active">
-            <a className="nav-link" href="/add-article">
-              Add Article
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="/articles">
-              Article List
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="/users">
-              User List
-            </a>
-          </li>
-        </ul>
-        <ul className="navbar-nav ms-auto">
-          <li className="nav-item active">
-            <a className="nav-link" href="/logout" onClick={this.logout}>
-              Logout
-            </a>
-          </li>
-        </ul>
-      </div>
+      <>
+        <div className="navbar-nav me-auto">
+          <Link to={"add-article"} className="nav-link">
+            Add Article
+          </Link>
+          <Link to={"articles"} className="nav-link">
+            Article List
+          </Link>
+          <Link to={"users"} className="nav-link">
+            User List
+          </Link>
+        </div>
+        <div className="navbar-nav ms-auto me-4">
+          <Link to={"logout"} className="nav-link" onClick={this.logout}>
+            Logout
+          </Link>
+        </div>
+      </>
     );
 
     return (
@@ -74,7 +106,6 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.authReducer);
   return {
     auth: state.authReducer,
   };

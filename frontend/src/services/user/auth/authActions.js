@@ -4,22 +4,32 @@ import {
   LOGIN_FAILURE,
   LOGOUT_REQUEST,
 } from "./authTypes";
+import axios from "axios";
 
 export const authenticateUser = (email, password) => {
+  const credentials = {
+    email: email,
+    password: password,
+  };
   return (dispatch) => {
     dispatch(loginRequest());
-    console.log("HELLO 2");
-    if (email === "admin" && password === "test") {
-      dispatch(login_logoutSuccess(true));
-    } else {
-      dispatch(loginFailure());
-    }
+    axios
+      .post("http://localhost:8080/api/v1/users/authenticate", credentials)
+      .then((response) => {
+        let token = response.data.token;
+        localStorage.setItem("jwtToken", token);
+        dispatch(login_logoutSuccess(true));
+      })
+      .catch((error) => {
+        dispatch(loginFailure());
+      });
   };
 };
 
 export const logoutUser = () => {
   return (dispatch) => {
     dispatch(logoutRequest());
+    localStorage.removeItem("jwtToken");
     dispatch(login_logoutSuccess(false));
   };
 };
