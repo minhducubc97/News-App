@@ -16,51 +16,6 @@ class Navbar extends Component {
   };
 
   render() {
-    // const guestNav = (
-    //   <div className="collapse navbar-collapse me-4">
-    //     <ul className="navbar-nav ms-auto">
-    //       <li className="nav-item active">
-    //         <a className="nav-link" href="/login">
-    //           Login
-    //         </a>
-    //       </li>
-    //       <li className="nav-item">
-    //         <a className="nav-link" href="/register">
-    //           Register
-    //         </a>
-    //       </li>
-    //     </ul>
-    //   </div>
-    // );
-    // const memberNav = (
-    //   <div className="collapse navbar-collapse me-4">
-    //     <ul className="navbar-nav me-auto">
-    //       <li className="nav-item active">
-    //         <a className="nav-link" href="/add-article">
-    //           Add Article
-    //         </a>
-    //       </li>
-    //       <li className="nav-item">
-    //         <a className="nav-link" href="/articles">
-    //           Article List
-    //         </a>
-    //       </li>
-    //       <li className="nav-item">
-    //         <a className="nav-link" href="/users">
-    //           User List
-    //         </a>
-    //       </li>
-    //     </ul>
-    //     <ul className="navbar-nav ms-auto">
-    //       <li className="nav-item active">
-    //         <a className="nav-link" href="/logout" onClick={this.logout}>
-    //           Logout
-    //         </a>
-    //       </li>
-    //     </ul>
-    //   </div>
-    // );
-
     const guestNav = (
       <div className="navbar-nav ms-auto me-4">
         <Link to={"login"} className="nav-link">
@@ -94,11 +49,11 @@ class Navbar extends Component {
 
     return (
       <nav className="navbar navbar-expand-md bg-dark navbar-dark">
-        <a className="navbar-brand" href="/">
+        <Link to={""} className="navbar-brand">
           <FontAwesomeIcon icon={faNewspaper} />
           &nbsp;&nbsp;
           <span>News</span>
-        </a>
+        </Link>
         {this.props.auth.isLoggedIn ? memberNav : guestNav}
       </nav>
     );
