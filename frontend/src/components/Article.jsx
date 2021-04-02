@@ -133,7 +133,7 @@ class Article extends Component {
           ),
         });
       }
-    }, 100);
+    }, 1000);
   };
 
   changeTitle = (event) => {

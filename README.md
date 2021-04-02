@@ -4,7 +4,7 @@
 
 A News web app that allows creating/editing/deleting/viewing/searching articles, while maintaining a list of users.
 
-# Demonstration
+## Demonstration
 
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/Home.PNG?raw=true">
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/Articles.PNG?raw=true">
