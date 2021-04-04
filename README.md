@@ -17,7 +17,7 @@ A News web app that allows creating/editing/deleting/viewing/searching articles,
 - Authentication with login
 - View the list of articles (sorting included)
 - Create new article
-- Edit existing article
+- Edit article
 - Delete article
 - Search for article with keyword 
 - View the list of users
