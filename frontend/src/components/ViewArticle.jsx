@@ -45,7 +45,13 @@ class ViewArticle extends Component {
       <div>
         <h1 className="text-white">{title}</h1>
         <h5 className="text-muted">{author}</h5>
-        <img src={coverPhotoURL} alt="coverPhotoURL"></img>
+        <br />
+        <img
+          src={coverPhotoURL}
+          alt="coverPhotoURL"
+          className="rounded mx-auto d-block"
+        ></img>
+        <br />
         <p className="text-white">{content}</p>
       </div>
     );
