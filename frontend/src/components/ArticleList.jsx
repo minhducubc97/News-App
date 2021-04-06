@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faList,
+  faBookOpen,
   faEdit,
   faTrash,
   faFastBackward,
@@ -16,6 +17,7 @@ import MyToast from "./MyToast";
 import "./../assets/style.css";
 import { connect } from "react-redux";
 import { deleteArticle } from "../services/functions";
+import { Link } from "react-router-dom";
 
 class ArticleList extends Component {
   constructor(props) {
@@ -173,14 +175,7 @@ class ArticleList extends Component {
   };
 
   render() {
-    const {
-      articles,
-      showSuccess,
-      curPage,
-      articlesPerPage,
-      totalPages,
-      totalElements,
-    } = this.state;
+    const { articles, showSuccess, curPage, totalPages } = this.state;
     const pageNumCss = {
       width: "50px",
       border: "1px solid #17A2B8",
@@ -271,12 +266,18 @@ class ArticleList extends Component {
                       <td>{article.category}</td>
                       <td>
                         <div className="btn-group" role="group">
-                          <a
+                          <Link
+                            className="btn btn-outline-info btn-sm"
+                            to={"/view-article/" + article.id}
+                          >
+                            <FontAwesomeIcon icon={faBookOpen} />
+                          </Link>
+                          <Link
                             className="btn btn-outline-primary btn-sm"
-                            href={"edit/" + article.id}
+                            to={"/edit-article/" + article.id}
                           >
                             <FontAwesomeIcon icon={faEdit} />
-                          </a>
+                          </Link>
                           <button
                             className="btn btn-outline-danger btn-sm"
                             onClick={() => this.deleteArticle(article.id)}

@@ -18,10 +18,10 @@ class Navbar extends Component {
   render() {
     const guestNav = (
       <div className="navbar-nav ms-auto me-4">
-        <Link to={"login"} className="nav-link">
+        <Link to={"/login"} className="nav-link">
           Login
         </Link>
-        <Link to={"register"} className="nav-link">
+        <Link to={"/register"} className="nav-link">
           Register
         </Link>
       </div>
@@ -29,18 +29,18 @@ class Navbar extends Component {
     const memberNav = (
       <>
         <div className="navbar-nav me-auto">
-          <Link to={"add-article"} className="nav-link">
+          <Link to={"/add-article"} className="nav-link">
             Add Article
           </Link>
-          <Link to={"articles"} className="nav-link">
+          <Link to={"/articles"} className="nav-link">
             Article List
           </Link>
-          <Link to={"users"} className="nav-link">
+          <Link to={"/users"} className="nav-link">
             User List
           </Link>
         </div>
         <div className="navbar-nav ms-auto me-4">
-          <Link to={"logout"} className="nav-link" onClick={this.logout}>
+          <Link to={"/logout"} className="nav-link" onClick={this.logout}>
             Logout
           </Link>
         </div>
@@ -49,7 +49,7 @@ class Navbar extends Component {
 
     return (
       <nav className="navbar navbar-expand-md bg-dark navbar-dark">
-        <Link to={""} className="navbar-brand">
+        <Link to={"/"} className="navbar-brand">
           <FontAwesomeIcon icon={faNewspaper} />
           &nbsp;&nbsp;
           <span>News</span>

@@ -14,7 +14,7 @@ import {
   getCategories,
 } from "../services/functions";
 
-class Article extends Component {
+class SaveArticle extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;
@@ -22,7 +22,6 @@ class Article extends Component {
       categories: [],
       showSuccess: false,
     };
-    this.state.method = "post";
     this.submitArticle = this.submitArticle.bind(this);
     this.editArticle = this.editArticle.bind(this);
     this.changeTitle = this.changeTitle.bind(this);
@@ -40,12 +39,13 @@ class Article extends Component {
     coverPhotoURL: "",
     content: "",
     category: "NA",
+    method: "post",
   };
 
   componentDidMount = () => {
     const articleId = this.props.match.params.id;
     if (articleId) {
-      this.state.method = "put";
+      this.setState({ method: "put" });
       this.getArticleById(articleId);
     }
     this.getAllCategories();
@@ -237,6 +237,7 @@ class Article extends Component {
                   />
                   {this.state.coverPhotoURL !== "" && (
                     <img
+                      alt="CoverPhotoURL"
                       src={this.state.coverPhotoURL}
                       className="rounded-right"
                       width="40"
@@ -305,4 +306,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Article);
+export default connect(mapStateToProps, mapDispatchToProps)(SaveArticle);
