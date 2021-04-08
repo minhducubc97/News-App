@@ -12,7 +12,7 @@ A News web app that allows creating/editing/deleting/viewing/searching articles,
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/EditArticle.PNG?raw=true">
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/Users.PNG?raw=true">
 
-## Current functionalities (ongoing):
+## Functionalities:
 
 - Authentication with login
 - View the list of articles (sorting included)
