@@ -17,8 +17,14 @@ import {
 class SaveArticle extends Component {
   constructor(props) {
     super(props);
-    this.state = this.initialState;
     this.state = {
+      id: "",
+      title: "",
+      author: "",
+      coverPhotoURL: "",
+      content: "",
+      category: "NA",
+      method: "post",
       categories: [],
       showSuccess: false,
     };
@@ -31,16 +37,6 @@ class SaveArticle extends Component {
     this.changeCategory = this.changeCategory.bind(this);
     this.navigateToArticleList = this.navigateToArticleList.bind(this);
   }
-
-  initialState = {
-    id: "",
-    title: "",
-    author: "",
-    coverPhotoURL: "",
-    content: "",
-    category: "NA",
-    method: "post",
-  };
 
   componentDidMount = () => {
     const articleId = this.props.match.params.id;

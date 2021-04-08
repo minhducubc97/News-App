@@ -52,7 +52,9 @@ class ViewArticle extends Component {
           className="rounded mx-auto d-block"
         ></img>
         <br />
-        <p className="text-white">{content}</p>
+        <span style={{ "white-space": "pre-line" }} className="text-white">
+          {content}
+        </span>
       </div>
     );
   }
