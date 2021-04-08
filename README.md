@@ -8,6 +8,7 @@ A News web app that allows creating/editing/deleting/viewing/searching articles,
 
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/Home.PNG?raw=true">
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/Articles.PNG?raw=true">
+<img src="https://github.com/minhducubc97/News-App/blob/master/img/ViewArticle.PNG?raw=true">
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/AddArticle.PNG?raw=true">
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/EditArticle.PNG?raw=true">
 <img src="https://github.com/minhducubc97/News-App/blob/master/img/Users.PNG?raw=true">
